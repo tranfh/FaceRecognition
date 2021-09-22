@@ -1,10 +1,10 @@
 import React from 'react';
 import './ImageLinkForm.css';
 
-const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
+const ImageLinkForm = ({ onInputChange, onButtonSubmit, userName }) => {
   return (
     <div>
-      <p className="f3 white">{"Hello, I'll detect faces in your picture"}</p>
+      <p className="f3 white">{`Hello ${userName}, I'll detect faces in your picture`}</p>
       <div className="center">
         <div className="blurred-box form center pa4 br3 shadow-5">
           <input

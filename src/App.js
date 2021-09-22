@@ -23,14 +23,33 @@ class App extends Component {
       box: {},
       route: 'login',
       isLoggedIn: false,
+      user: {
+        id: '',
+        email: '',
+        name: '',
+        entries: 0,
+        joined: '',
+      },
     };
   }
 
   // componentDidMount() {
   //   fetch('http://localhost:3000')
   //     .then((response) => response.json())
-  //     .then(console.log());
+  //     .then(console.log);
   // }
+
+  loadUser = (data) => {
+    this.setState({
+      user: {
+        id: data.id,
+        email: data.email,
+        name: data.name,
+        entries: data.entries,
+        joined: data.joined,
+      },
+    });
+  };
 
   calculateFaceLocation = (data) => {
     const clarifaiFace =
@@ -61,9 +80,22 @@ class App extends Component {
     console.log(this.state.imageURL);
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then((response) =>
-        this.displayFaceBox(this.calculateFaceLocation(response))
-      )
+      .then((response) => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: this.state.user.id,
+            }),
+          })
+            .then((response) => response.json())
+            .then((count) => {
+              this.setState(Object.assign(this.state.user, { entries: count }));
+            });
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response));
+      })
       .catch((err) => console.log('Error, ', err));
   };
 
@@ -89,17 +121,24 @@ class App extends Component {
         <Logo />
         {route === 'home' ? (
           <div>
-            <Rank />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onButtonSubmit={this.onButtonSubmit}
+              userName={this.state.user.name}
             />
             <FaceRecognition imageURL={imageURL} box={box} />
           </div>
         ) : route === 'login' ? (
-          <Login onRouteChange={this.onRouteChange} />
+          <Login onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
         ) : (
-          <Register onRouteChange={this.onRouteChange} />
+          <Register
+            onRouteChange={this.onRouteChange}
+            loadUser={this.loadUser}
+          />
         )}
       </div>
     );

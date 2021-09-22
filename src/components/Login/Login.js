@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Login extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       loginEmail: '',
       loginPassword: '',
@@ -25,8 +25,9 @@ class Login extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data === 'Success') {
+      .then((user) => {
+        if (user.id) {
+          this.props.loadUser(user);
           this.props.onRouteChange('home');
         }
       });
