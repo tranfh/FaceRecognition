@@ -1,5 +1,10 @@
 # Run the Deployed App
 https://trandn-face-recognition.herokuapp.com/
+You can register or simply use the credentials:
+EMAIL: test@gmail.com  
+PW: test
+
+### the url to the image should end with an extension type to work
 
 # Getting Started with Create React App
 
