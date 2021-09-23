@@ -6,6 +6,7 @@ class Login extends Component {
     this.state = {
       loginEmail: '',
       loginPassword: '',
+      errorMessage: false,
     };
   }
   onEmailChange = (event) => {
@@ -29,6 +30,9 @@ class Login extends Component {
         if (user.id) {
           this.props.loadUser(user);
           this.props.onRouteChange('home');
+          this.setState({ errorMessage: false });
+        } else {
+          this.setState({ errorMessage: true });
         }
       });
   };
@@ -42,6 +46,9 @@ class Login extends Component {
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Sign In</legend>
               <div className="mt3">
+                {this.state.errorMessage === true && (
+                  <p style={{ color: 'red' }}>Incorrect Email or Password</p>
+                )}
                 <label className="db fw6 lh-copy f6" htmlFor="email-address">
                   Email
                 </label>
