@@ -8,11 +8,6 @@ import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import './App.css';
 import ParticlesBg from 'particles-bg';
 import { Component } from 'react';
-import Clarifai from 'clarifai';
-
-const app = new Clarifai.App({
-  apiKey: '7c2f80f017164bc6b99de474dd90e686',
-});
 
 const initialState = {
   input: '',
@@ -69,7 +64,7 @@ class App extends Component {
 
   displayFaceBox = (box) => {
     this.setState({ box: box });
-    console.log(this.state.box);
+    // console.log(this.state.box);
   };
 
   onInputChange = (event) => {
@@ -80,8 +75,14 @@ class App extends Component {
   onButtonSubmit = () => {
     this.setState({ imageURL: this.state.input });
     console.log(this.state.imageURL);
-    app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:3000/imageurl', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: this.state.input,
+      }),
+    })
+      .then((response) => response.json())
       .then((response) => {
         if (response) {
           fetch('http://localhost:3000/image', {
