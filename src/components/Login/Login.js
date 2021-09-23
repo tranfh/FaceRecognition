@@ -17,7 +17,7 @@ class Login extends Component {
   };
 
   onSubmitSignin = () => {
-    fetch('http://localhost:3000/login', {
+    fetch('https://glacial-journey-90812.herokuapp.com/login', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
