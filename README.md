@@ -1,4 +1,10 @@
-# Welcome to the 
+# FaceRecognition Project
+
+This is a fullstack project created with ReactJS and NodeJS.
+
+It is a simple webpage that allows the user to login or register and by simply copying an image url the app will try to detect a face using the CLARIFAI API
+
+
 # Run the Deployed App
 https://trandn-face-recognition.herokuapp.com/
 
